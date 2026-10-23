@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { Menu, X, Phone, Mail, Award, ArrowRight, MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -31,10 +31,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBrochure }) => {
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    setMobileMenuOpen(false);
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
+    if (mobileMenuOpen) {
+      setMobileMenuOpen(false);
+      // Wait for menu close animation (250ms) before scrolling
+      setTimeout(() => {
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 300);
+    } else {
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
     }
   };
 
@@ -180,7 +190,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBrochure }) => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
-            className="lg:hidden bg-brand-navyDark/98 backdrop-blur-xl border-b border-brand-navyLight px-4 pt-3 pb-6 shadow-2xl"
+            className="lg:hidden bg-[#061334] border-b border-brand-navyLight px-4 pt-3 pb-6 shadow-2xl"
           >
             <div className="flex flex-col space-y-3">
               <div className="pb-2 border-b border-slate-700/60 flex items-center justify-between text-xs text-slate-400">
@@ -195,7 +205,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBrochure }) => {
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className="px-3 py-2 text-base font-medium text-slate-200 hover:text-brand-gold hover:bg-brand-navy/60 rounded-md transition-all"
+                  className="px-3 py-2 text-base font-medium text-white hover:text-brand-gold hover:bg-brand-navyLight/50 rounded-md transition-all"
                 >
                   {link.name}
                 </a>
